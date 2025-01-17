@@ -9,24 +9,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v1/users/login")
-public class LoginController {
+@RequestMapping("/api/v1/users/recovery")
+public class RecoveryController {
 
     @Autowired
     private LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody CreateUserDTO createUserDTO) {
-        var userContactCreated = loginService.doLogin(createUserDTO);
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userContactCreated.getId()).toUri();
-        return ResponseEntity.created(uri).body(userContactCreated);
+    public ResponseEntity<User> recoveryPassword(@RequestBody CreateUserDTO createUserDTO) {
+        var user = loginService.isRecoverPassword(createUserDTO);
+        return ResponseEntity.ok(user);
     }
+//
+//    @PutMapping
+//    public ResponseEntity<Contact> create(@RequestBody CreateUserDTO createUserDTO) {
+//        var userContactCreated = loginService.isRecoverPassword(createUserDTO);
+//
+//        return ResponseEntity.ok().body(userContactCreated);
+//    }
+
 }

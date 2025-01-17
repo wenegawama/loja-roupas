@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CreatePerfilDTO(
         @NotBlank
-        String nome
+        String name
 ) {
 }

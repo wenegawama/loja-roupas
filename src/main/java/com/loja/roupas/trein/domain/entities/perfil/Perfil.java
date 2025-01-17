@@ -3,12 +3,14 @@ package com.loja.roupas.trein.domain.entities.perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity(name = "perfil")
 @Table(name = "TBL_WENSHOP_PERFIL")
@@ -20,9 +22,7 @@ public class Perfil implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_perfil")
     @Column(name="id",unique=true,nullable=false)
     private Long id;
-    private String nome;
 
-    //nao precisa mapear o relacionamento com user
-    public Perfil() {
-    }
+    @Column(name = "name", nullable = false, updatable = false)
+    private String name;
 }

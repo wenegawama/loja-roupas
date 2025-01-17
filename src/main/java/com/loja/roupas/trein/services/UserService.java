@@ -6,6 +6,10 @@ import com.loja.roupas.trein.domain.entities.user.User;
 import com.loja.roupas.trein.repositories.ContactRepository;
 import com.loja.roupas.trein.repositories.PerfilRepository;
 import com.loja.roupas.trein.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Base64;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -27,38 +32,40 @@ public class UserService {
 
     private Contact contact;
     @Transactional
-    public User create(CreateUserDTO createUserDTO) {
-        var userCreated = new User(createUserDTO);
+    public Contact create(CreateUserDTO createUserDTO) {
+        log.info("Iniciando a classe service do user!!");
+        var userCreated = new User();
 
-        var perfil = perfilRepository.findById(3L)
-                .orElseThrow(() -> new IllegalArgumentException("Perfil não encontrado com o ID 3"));
+         //var perfil = perfilRepository.findById(1L)
+                //.orElseThrow(() -> new IllegalArgumentException("Perfil não encontrado com o ID 1"));
 
-        perfil.setId(3L);
-        perfil.setNome("CLIENTE");
+        userCreated.setEmail(createUserDTO.email());
+        userCreated.setPassword(Base64.getEncoder().encodeToString(createUserDTO.password().getBytes()));
+
+        var perfil = perfilRepository.findByName(createUserDTO.perfil());//try catch
         userCreated.setPerfil(perfil);
 
-        perfilRepository.save(perfil);
+        log.info("Salvando o usuário!!");
+        var savedUser = userRepository.save(userCreated);
 
-        userCreated.setId(userCreated.getId());
-        userCreated.setEmail(userCreated.getEmail());
-        userCreated.setPassword(Base64.getEncoder().encodeToString(userCreated.getPassword().getBytes()));
-
-        return userRepository.save(userCreated);
-
-        /*contact = new Contact();
+        contact = new Contact();
         contact.setUser(savedUser);
-        contact.setName(savedUser.getPerfil().getNome());
-        contact.setDocumento(contact.getDocumento());
-        contact.setAddress(contact.getAddress());
-        contact.setZipcode(contact.getZipcode());
-        contact.setCity(contact.getCity());
-        contact.setComplement(contact.getComplement());
-        contact.setComplement(contact.getComplement());
-        contact.setReference_place(contact.getReference_place());
+        contact.setName(createUserDTO.name());
+        contact.setDocumento(createUserDTO.documento());
+        contact.setAddress(createUserDTO.address());
+        contact.setZipcode(createUserDTO.zipcode());
+        contact.setCity(createUserDTO.city());
+        contact.setComplement(createUserDTO.complement());
+        contact.setPhone(createUserDTO.phone());
+        contact.setReference_place(createUserDTO.reference_place());
+        contact.setPergunta(createUserDTO.pergunta());
+        contact.setResposta_pergunta(createUserDTO.resposta_pergunta());
 
-        return contactRepository.save(contact);*/
+        log.info("Salvando o usuário com as informações do contacto!!");
+        return contactRepository.save(contact);
     }
-        public List<User> listAll() {
-            return  userRepository.findAll();
+        public List<Contact> listAll() {
+            return  contactRepository.findAll();
         }
+
     }

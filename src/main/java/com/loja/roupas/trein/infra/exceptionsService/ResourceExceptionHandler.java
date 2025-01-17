@@ -17,4 +17,9 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity valiUser(ValidationException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
 }

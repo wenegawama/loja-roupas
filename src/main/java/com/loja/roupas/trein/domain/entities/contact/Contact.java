@@ -1,6 +1,7 @@
 package com.loja.roupas.trein.domain.entities.contact;
 
 import com.loja.roupas.trein.domain.dto.contactDTO.CreateContactDTO;
+import com.loja.roupas.trein.domain.dto.login.CreateLoginDTO;
 import com.loja.roupas.trein.domain.entities.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,34 +22,30 @@ public class Contact implements Serializable {
             name="seq_contact",
             sequenceName="SEQ_TBL_WENSHOP_CONTACT",
             schema = "SQLUTIL_OWNER",
-            initialValue=9,
             allocationSize=1)
     @GeneratedValue(
             strategy=GenerationType.SEQUENCE,
             generator="seq_contact")
     private Long id;
 
+    @Column(name="name",unique=false,nullable=false)
     private String name;
+
+    @Column(name="documento",unique=true,nullable=false)
     private String documento;
+
     private String address;
     private String zipcode;
     private String city;
     private String complement;
     private String phone;
     private String reference_place;
+    private String pergunta;
+    private String resposta_pergunta;
 
     @OneToOne
-    @MapsId
+    @JoinColumn(name = "id_user")
     private User user;
 
-    public Contact(CreateContactDTO createContactDTO) {
-        this.name = createContactDTO.name();
-        this.documento = createContactDTO.documento();
-        this.address = createContactDTO.address();
-        this.zipcode = createContactDTO.zipcode();
-        this.city = createContactDTO.city();
-        this.complement = createContactDTO.complement();
-        this.phone = createContactDTO.phone();
-        this.reference_place = createContactDTO.reference_place();
-    }
+
 }

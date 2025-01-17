@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_DIR_WENSHOP" value="logs/wenshop"/>
+
+    <!--    Log console-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>{ "timestamp": %d{dd-MM-yyyy HH:mm:ss.SSS}, "message": %msg, "logger_name": %logger{35}, "thread_name": [%thread], "level": %-5level }%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--    Exemplo 1 - saida log é anexado somente em um arquivo -->
+    <appender name="wenshop" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR_WENSHOP:-env/}/wenshop.txt</file>
+        <append>true</append>
+        <encoder>
+            <pattern>{ "timestamp": %d{dd-MM-yyyy HH:mm:ss.SSS}, "message": %msg, "logger_name": %logger{35}, "thread_name": [%thread], "level": %-5level }%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.loja.roupas.trein" level="info" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <root level="info">
+        <appender-ref ref="wenshop"/>
+    </root>
+</configuration>
