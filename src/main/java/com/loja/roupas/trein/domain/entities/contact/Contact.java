@@ -1,9 +1,15 @@
 package com.loja.roupas.trein.domain.entities.contact;
 
-import com.loja.roupas.trein.domain.dto.contactDTO.CreateContactDTO;
-import com.loja.roupas.trein.domain.dto.login.CreateLoginDTO;
 import com.loja.roupas.trein.domain.entities.user.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -46,6 +52,4 @@ public class Contact implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_user")
     private User user;
-
-
 }

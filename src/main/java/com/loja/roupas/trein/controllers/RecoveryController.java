@@ -1,12 +1,7 @@
 package com.loja.roupas.trein.controllers;
 
-import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
-import com.loja.roupas.trein.domain.entities.user.User;
-import com.loja.roupas.trein.services.LoginService;
+import com.loja.roupas.trein.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecoveryController {
 
     @Autowired
-    private LoginService loginService;
+    private AuthenticationService loginService;
 
-    @PostMapping
-    public ResponseEntity<User> recoveryPassword(@RequestBody CreateUserDTO createUserDTO) {
-        var user = loginService.isRecoverPassword(createUserDTO);
-        return ResponseEntity.ok(user);
-    }
+//    @PostMapping
+//    public ResponseEntity<User> recoveryPassword(@RequestBody CreateUserDTO createUserDTO) {
+//        var user = loginService.isRecoverPassword(createUserDTO);
+//        return ResponseEntity.ok(user);
+//    }
 //
 //    @PutMapping
 //    public ResponseEntity<Contact> create(@RequestBody CreateUserDTO createUserDTO) {

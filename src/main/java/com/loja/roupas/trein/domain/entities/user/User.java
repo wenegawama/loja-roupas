@@ -1,21 +1,18 @@
 package com.loja.roupas.trein.domain.entities.user;
 
-import com.loja.roupas.trein.domain.dto.login.CreateLoginDTO;
 import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
 import com.loja.roupas.trein.domain.entities.perfil.Perfil;
-import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Entity(name = "user")
 @Table(name = "TBL_WENSHOP_USER")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class User implements Serializable {
+public class User   {
 
     @Id
     @SequenceGenerator(
@@ -38,16 +35,15 @@ public class User implements Serializable {
     @JoinColumn(name = "id_perfil")
     private Perfil perfil;
 
-    public User(CreateLoginDTO createLoginDTO) {
-        this.email= createLoginDTO.email();
-        this.password = createLoginDTO.password();
+    public User(CreateUserDTO createUserDTO) {
+        this.email= createUserDTO.email();
+        this.password = createUserDTO.password();
     }
 
     public User(User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
     }
-
 
 //coluna da pergunta
 

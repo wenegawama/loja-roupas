@@ -1,0 +1,59 @@
+package com.loja.roupas.trein.domain.entities.product;
+
+import com.loja.roupas.trein.domain.dto.product.CreateProductDTO;
+import com.loja.roupas.trein.domain.entities.enums.Category;
+import com.loja.roupas.trein.domain.entities.enums.Tamanho;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity(name = "product")
+@Table(name = "TBL_WENSHOP_PRODUCT")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Product {
+
+    @Id
+    @SequenceGenerator(
+            name="seq_product",
+            sequenceName="SEQ_TBL_WENSHOP_PRODUCT",
+            schema = "SQLUTIL_OWNER",
+            allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_product")
+    @Column(name = "id", nullable = false, unique = true, updatable = false)
+    private Long id;
+
+    @Column(name = "name", updatable = false,nullable = false)
+    private String name;
+
+    @Column(name = "description", updatable = false,nullable = false)
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @Column(name = "price", updatable = false,nullable = false)
+    private Double price;
+
+    @Column(name = "color", updatable = false,nullable = false)
+    private String color;
+
+    @Column(name = "quantity", updatable = false,nullable = false)
+    private Integer quantity;
+
+    @Enumerated(EnumType.STRING)
+    private Tamanho tamanho;
+
+    public Product(CreateProductDTO createProductDTO) {
+        this.name = createProductDTO.name();
+        this.description = createProductDTO.description();
+        this.category = createProductDTO.category();
+        this.price = createProductDTO.price();
+        this.color = createProductDTO.color();
+        this.quantity = createProductDTO.quantity();
+        this.tamanho = createProductDTO.tamanho();
+    }
+}
+
