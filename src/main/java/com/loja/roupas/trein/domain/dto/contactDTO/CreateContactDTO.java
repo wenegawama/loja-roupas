@@ -12,9 +12,6 @@ public record CreateContactDTO(
         @NotBlank(message = "É obligatório informar o documento")
         @Size(max = 255, message = "Deve ter no maximo {255} caracteres")
         String documento,
-        @NotBlank(message = "É obligatório informar o endereço")
-        @Size(max = 255, message = "Deve ter no maximo {500} caracteres")
-        String address,
         @NotBlank(message = "É obligatório informar o Cep")
         @Size(max = 8, message = "Deve ter no maximo {8} caracteres")
         String zipcode,

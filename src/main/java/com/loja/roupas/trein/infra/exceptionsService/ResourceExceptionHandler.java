@@ -22,4 +22,10 @@ public class ResourceExceptionHandler {
     public ResponseEntity valiUser(ValidationException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
     }
+
+
+    @ExceptionHandler(RecupercaoSenhaException.class)
+    public ResponseEntity recuperarSenha(RecupercaoSenhaException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
 }

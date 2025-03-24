@@ -1,7 +1,9 @@
 package com.loja.roupas.trein.domain.entities.user;
 
 import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
+import com.loja.roupas.trein.domain.dto.userDTO.UpdateRecoveryDTO;
 import com.loja.roupas.trein.domain.entities.perfil.Perfil;
+import com.loja.roupas.trein.domain.entities.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +26,7 @@ public class User   {
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Long id;
 
-    @Column(name = "email", updatable = false, nullable = false)
+    @Column(name = "email", updatable = false, nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", updatable = false, nullable = false)
@@ -35,6 +37,9 @@ public class User   {
     @JoinColumn(name = "id_perfil")
     private Perfil perfil;
 
+//    @OneToOne
+//    @JoinColumn(name = "id_product")
+//    private Product product;
     public User(CreateUserDTO createUserDTO) {
         this.email= createUserDTO.email();
         this.password = createUserDTO.password();
@@ -45,6 +50,9 @@ public class User   {
         this.password = user.getPassword();
     }
 
-//coluna da pergunta
-
+    public void updateData(UpdateRecoveryDTO updateRecoveryDTO) {
+        if(updateRecoveryDTO.password() != null) {
+            this.password = updateRecoveryDTO.password();
+        }
+    }
 }

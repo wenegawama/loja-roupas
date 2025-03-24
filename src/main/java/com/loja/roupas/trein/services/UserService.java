@@ -30,9 +30,15 @@ public class UserService {
     public Contact create(CreateUserDTO createUserDTO) {
         log.info("Iniciando a classe service do user!!");
         var userCreated = new User();
+        //verificar se tem o email já para não repetir.
 
         userCreated.setEmail(createUserDTO.email());
         userCreated.setPassword(Base64.getEncoder().encodeToString(createUserDTO.password().getBytes()));
+
+        var emailUser = userRepository.findByEmail(createUserDTO.email());
+        if(emailUser != null) {
+            throw new RuntimeException("Email já existe");
+        }
 
         var perfil = perfilRepository.findByName(createUserDTO.perfil());//try catch rever toStir
         userCreated.setPerfil(perfil);
@@ -44,9 +50,11 @@ public class UserService {
         contact.setUser(savedUser);
         contact.setName(createUserDTO.name());
         contact.setDocumento(createUserDTO.documento());
-        contact.setAddress(createUserDTO.address());
         contact.setZipcode(createUserDTO.zipcode());
         contact.setCity(createUserDTO.city());
+        contact.setNeighborhood(createUserDTO.neighborhood());
+        contact.setStreet(createUserDTO.street());
+        contact.setNumero(createUserDTO.numero());
         contact.setComplement(createUserDTO.complement());
         contact.setPhone(createUserDTO.phone());
         contact.setReference_place(createUserDTO.reference_place());
@@ -59,5 +67,5 @@ public class UserService {
         public List<Contact> listAllContact() {
             return  contactRepository.findAll();
         }
-
     }
+

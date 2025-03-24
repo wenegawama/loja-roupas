@@ -39,10 +39,11 @@ public class Contact implements Serializable {
 
     @Column(name="documento",unique=true,nullable=false)
     private String documento;
-
-    private String address;
     private String zipcode;
     private String city;
+    private String neighborhood;
+    private String street;
+    private String numero;
     private String complement;
     private String phone;
     private String reference_place;
