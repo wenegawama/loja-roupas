@@ -37,18 +37,38 @@ public class Contact implements Serializable {
     @Column(name="name",unique=false,nullable=false)
     private String name;
 
-    @Column(name="documento",unique=true,nullable=false)
+    @Column(name="documento",nullable=false)
     private String documento;
+
+    @Column(name="zipcode",unique=false,nullable=false)
     private String zipcode;
+
+    @Column(name="city",unique=false,nullable=false)
     private String city;
+
+    @Column(name="neighborhood",unique=false,nullable=false)
     private String neighborhood;
+
+    @Column(name="street",unique=false,nullable=false)
     private String street;
+
+    @Column(name="numero",unique=false,nullable=false)
     private String numero;
+
+    @Column(name="complement",unique=false,nullable=false)
     private String complement;
+
+    @Column(name="phone",unique=false,nullable=false)
     private String phone;
-    private String reference_place;
+
+    @Column(name="referencePlace",unique=false,nullable=false)
+    private String referencePlace;
+
+    @Column(name="pergunta",unique=false,nullable=false)
     private String pergunta;
-    private String resposta_pergunta;
+
+    @Column(name="resposta_pergunta",unique=false,nullable=false)
+    private String respostaPergunta;
 
     @OneToOne
     @JoinColumn(name = "id_user")

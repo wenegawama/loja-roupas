@@ -4,8 +4,8 @@ public record RecoveryContactDTO(
 
         String documento,
         String email,
-        String pergunta_secreta,
+        String pergunta,
 
-        String resposta_secreta
+        String respostaPergunta
 ) {
 }

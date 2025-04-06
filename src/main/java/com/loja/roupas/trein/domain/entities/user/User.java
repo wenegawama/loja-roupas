@@ -1,13 +1,21 @@
 package com.loja.roupas.trein.domain.entities.user;
 
 import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
-import com.loja.roupas.trein.domain.dto.userDTO.UpdateRecoveryDTO;
 import com.loja.roupas.trein.domain.entities.perfil.Perfil;
-import com.loja.roupas.trein.domain.entities.product.Product;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Base64;
 
 @Entity(name = "user")
 @Table(name = "TBL_WENSHOP_USER")
@@ -29,7 +37,7 @@ public class User   {
     @Column(name = "email", updatable = false, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", updatable = false, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
 
@@ -37,9 +45,6 @@ public class User   {
     @JoinColumn(name = "id_perfil")
     private Perfil perfil;
 
-//    @OneToOne
-//    @JoinColumn(name = "id_product")
-//    private Product product;
     public User(CreateUserDTO createUserDTO) {
         this.email= createUserDTO.email();
         this.password = createUserDTO.password();
@@ -50,9 +55,9 @@ public class User   {
         this.password = user.getPassword();
     }
 
-    public void updateData(UpdateRecoveryDTO updateRecoveryDTO) {
-        if(updateRecoveryDTO.password() != null) {
-            this.password = updateRecoveryDTO.password();
+    public void updateData() {
+        if(this.password != null) {
+            this.password = Base64.getEncoder().encodeToString(this.password.getBytes());
         }
     }
 }

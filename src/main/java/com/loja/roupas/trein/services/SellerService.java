@@ -1,7 +1,6 @@
 package com.loja.roupas.trein.services;
 
 import com.loja.roupas.trein.domain.dto.sellerDTO.CreateSellerDTO;
-import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
 import com.loja.roupas.trein.domain.entities.contact.Contact;
 import com.loja.roupas.trein.domain.entities.user.User;
 import com.loja.roupas.trein.repositories.ContactRepository;
@@ -32,19 +31,22 @@ public class SellerService {
     @Transactional
     public Contact create(CreateSellerDTO createSellerDTO) {
         log.info("Iniciando a classe service do vendedor!!");
-        var userCreated = new User();
+        var sellerCreated = new User();
 
-         //var perfil = perfilRepository.findById(1L)
-                //.orElseThrow(() -> new IllegalArgumentException("Perfil não encontrado com o ID 1"));
+        sellerCreated.setEmail(createSellerDTO.email());
+        sellerCreated.setPassword(Base64.getEncoder().encodeToString(createSellerDTO.password().getBytes()));
 
-        userCreated.setEmail(createSellerDTO.email());
-        userCreated.setPassword(Base64.getEncoder().encodeToString(createSellerDTO.password().getBytes()));
+        var sellerEmail = userRepository.findByEmail(createSellerDTO.email());
+
+        if(sellerEmail != null) {
+            throw new RuntimeException("Email já existe");
+        }
 
         var perfil = perfilRepository.findByName(createSellerDTO.perfil());//try catch
-        userCreated.setPerfil(perfil);
+        sellerCreated.setPerfil(perfil);
 
         log.info("Salvando o vendedor!!");
-        var savedUser = userRepository.save(userCreated);
+        var savedUser = userRepository.save(sellerCreated);
 
         contact = new Contact();
         contact.setUser(savedUser);
@@ -52,11 +54,14 @@ public class SellerService {
         contact.setDocumento(createSellerDTO.documento());
         contact.setZipcode(createSellerDTO.zipcode());
         contact.setCity(createSellerDTO.city());
+        contact.setNeighborhood(createSellerDTO.neighborhood());
+        contact.setStreet(createSellerDTO.street());
+        contact.setNumero(createSellerDTO.numero());
         contact.setComplement(createSellerDTO.complement());
         contact.setPhone(createSellerDTO.phone());
-        contact.setReference_place(createSellerDTO.reference_place());
+        contact.setReferencePlace(createSellerDTO.referencePlace());
         contact.setPergunta(createSellerDTO.pergunta());
-        contact.setResposta_pergunta(createSellerDTO.resposta_pergunta());
+        contact.setRespostaPergunta(createSellerDTO.respostaPergunta());
 
         log.info("Salvando o vendedor com as informações do contacto!!");
         return contactRepository.save(contact);

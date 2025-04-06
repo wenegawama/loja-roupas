@@ -17,8 +17,9 @@ public record CreateUserDTO(
 
         @NotBlank(message = "É obligatório informar a senha")
         @Pattern(
-                regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
-                message = "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, um número e um símbolo.")
+                regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$",
+                message = "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, um número e um símbolo."
+        )
         String password,
 
         @NotBlank(message = "É obligatório informar o nome completo")
@@ -72,13 +73,13 @@ public record CreateUserDTO(
         @Pattern(regexp = "^\\d{11}$", message = "O telefone deve conter 11 digitos!")
         String phone,
 
-        String reference_place,
+        String referencePlace,
 
         String pergunta,
 
         @NotBlank(message = "É obligatório informar a resposta")
         @Size(max = 255, message = "Deve ter no maximo {255} caracteres")
-        String resposta_pergunta,
+        String respostaPergunta,
 
         String perfil
 ) {
