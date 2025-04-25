@@ -4,12 +4,21 @@ import com.loja.roupas.trein.domain.dto.product.CreateProductDTO;
 import com.loja.roupas.trein.domain.entities.enums.Category;
 import com.loja.roupas.trein.domain.entities.enums.Tamanho;
 import com.loja.roupas.trein.domain.entities.user.User;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 @Entity(name = "product")
 @Table(name = "TBL_WENSHOP_PRODUCT")
@@ -35,12 +44,13 @@ public class Product {
     private String description;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "category")
     private Category category;
 
     @Column(name = "price",nullable = false)
     private Double price;
 
-    @Column(name = "color", updatable = true,nullable = false)
+    @Column(name = "color", updatable = true, nullable = false)
     private String color;
 
     @Column(name = "quantity", nullable = false)
@@ -50,9 +60,9 @@ public class Product {
     private Tamanho tamanho;
 
     @Lob
-    private  byte[] foto;
+    private byte[] foto;
 
-    //Antes de criar o produto, preciso ter criado ao usuario- Product tem uma dependencia para User
+    //Antes de criar o produto, preciso ter criado o usuario- Product tem uma dependencia para User
     //Por isso tá 
     @OneToOne
     @JoinColumn(name = "id_user")

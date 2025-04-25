@@ -4,11 +4,8 @@ import com.loja.roupas.trein.domain.entities.enums.Category;
 import com.loja.roupas.trein.domain.entities.enums.Tamanho;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.web.multipart.MultipartFile;
 
 public record CreateProductDTO(
-
-
 
         @NotBlank
         String name,
@@ -25,7 +22,7 @@ public record CreateProductDTO(
         @NotNull
         Tamanho tamanho,
 
-        MultipartFile foto,
+        byte[] foto,
         @NotNull
         Long id_user
 ) {

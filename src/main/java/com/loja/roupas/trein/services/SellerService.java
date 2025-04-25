@@ -39,6 +39,7 @@ public class SellerService {
         var sellerEmail = userRepository.findByEmail(createSellerDTO.email());
 
         if(sellerEmail != null) {
+            log.info("Email já existe!!! - Lançando a exceção");
             throw new RuntimeException("Email já existe");
         }
 
