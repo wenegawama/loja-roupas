@@ -9,7 +9,11 @@ import com.loja.roupas.trein.domain.entities.user.User;
 import com.loja.roupas.trein.services.AuthenticationService;
 import com.loja.roupas.trein.services.ProductService;
 import com.loja.roupas.trein.services.SellerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +21,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
+@Tag(name="Vendedor")
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/users/sellers")
 public class SellerController {
@@ -29,6 +36,7 @@ public class SellerController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Operation(summary = "Cadastrar um vendedor.")
     @PostMapping
     public ResponseEntity<Contact> insert(@RequestBody @Valid CreateSellerDTO createSellerDTO) {
         var sellerContactCreated = sellerService.create(createSellerDTO);
@@ -38,7 +46,8 @@ public class SellerController {
                 .buildAndExpand(sellerContactCreated.getId()).toUri();
         return ResponseEntity.created(uri).body(sellerContactCreated);
     }
-    @PostMapping("/product")
+    @Operation(summary = "Cadastrar um produto.")
+    @PostMapping(value = "/product")
     public ResponseEntity<Product> insertProduct(@RequestBody @Valid CreateProductDTO createProductDTO) throws IOException {
         var productCreated = productService.create(createProductDTO);
         URI uri = ServletUriComponentsBuilder
@@ -48,6 +57,30 @@ public class SellerController {
         return ResponseEntity.created(uri).body(productCreated);
     }
 
+    @Operation(summary = "Buscar um produto pelo Id")
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> list(@Parameter(description="Id do produto", example = "28", required = true) @PathVariable Long id) {
+        log.info("Controller do produto - id");
+        var product = productService.findOneProduct(id);
+        return ResponseEntity.ok().body(product);
+    }
+
+    @Operation(summary = "Buscar todos os produtos.")
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> listAllProducts() {
+        var products = productService.findAllProducts();
+        return ResponseEntity.ok().body(products);
+    }
+
+    //Listar somente todos produtos que pertence a um vendedor
+    @Operation(summary = "Buscar todos os produtos de um vendedor.")
+    @GetMapping("/product/{id}/products")
+    public ResponseEntity<List<Product>> listProducts (@PathVariable Long id) {
+        var products = productService.findAllProductsSeller(id);
+        return ResponseEntity.ok().body(products);
+    }
+
+    @Operation(summary = "Alterar a senha.")
     @PatchMapping("/updatePassword")
     public ResponseEntity<User> update(@RequestBody @Valid UpdateRecoveryDTO updateRecoveryDTO) {
         User updatedUser = authenticationService.updatePassword(updateRecoveryDTO);
