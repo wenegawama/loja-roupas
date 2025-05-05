@@ -3,6 +3,7 @@ package com.loja.roupas.trein.services;
 import com.loja.roupas.trein.domain.dto.product.CreateProductDTO;
 import com.loja.roupas.trein.domain.entities.product.Product;
 import com.loja.roupas.trein.domain.entities.user.User;
+import com.loja.roupas.trein.infra.exceptionsService.ResourceNotFoundException;
 import com.loja.roupas.trein.repositories.ContactRepository;
 import com.loja.roupas.trein.repositories.ProductRepository;
 import com.loja.roupas.trein.repositories.UserRepository;
@@ -51,7 +52,7 @@ public class ProductService {
 
     public Product findOneProduct(Long id) {
         log.info("Procurando o id do produto no service");
-        var product =  productRepository.getReferenceById(id);
+        var product =  productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         log.info("Id do produto encontrado - retornando o produto");
 
         return product;
