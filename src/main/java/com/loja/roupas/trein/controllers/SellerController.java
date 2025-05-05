@@ -58,8 +58,8 @@ public class SellerController {
     }
 
     @Operation(summary = "Buscar um produto pelo Id")
-    @GetMapping("/product/{id}")
-    public ResponseEntity<Product> list(@Parameter(description="Id do produto", example = "28", required = true) @PathVariable Long id) {
+    @GetMapping("/produtos/buscar")
+    public ResponseEntity<Product> list(@Parameter(description="Id do produto", example = "28", required = true) @RequestParam Long id) {
         log.info("Controller do produto - id");
         var product = productService.findOneProduct(id);
         return ResponseEntity.ok().body(product);
