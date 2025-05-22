@@ -4,11 +4,9 @@ import com.loja.roupas.trein.domain.dto.CreateCardDTO;
 import com.loja.roupas.trein.domain.entities.contact.Contact;
 import com.loja.roupas.trein.domain.entities.payment.Cartao;
 import com.loja.roupas.trein.domain.entities.payment.MetodoPagamento;
-import com.loja.roupas.trein.domain.entities.user.User;
 import com.loja.roupas.trein.repositories.CardRepository;
 import com.loja.roupas.trein.repositories.ContactRepository;
 import com.loja.roupas.trein.repositories.MetodoPagamentoRepository;
-import com.loja.roupas.trein.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +21,12 @@ public class CardService {
     @Autowired
     private MetodoPagamentoRepository metodoPagamentoRepository;
 
-
+    @Autowired
+    private ContactRepository contactRepository;
 
     public Cartao insert(CreateCardDTO dto) {
         Cartao cartao = new Cartao();
         MetodoPagamento metodoPagamento = new MetodoPagamento();
-
-        log.info("Setando o método de pagamento do cartão");
-        metodoPagamento.setMetodoPagamento(dto.typeCard());
-        metodoPagamento.setContact(dto.idContact());
-
-        metodoPagamentoRepository.save(metodoPagamento);
-
 
         log.info("Setando o nome do cartão");
         cartao.setNameCard(dto.nameCard());
@@ -51,10 +43,20 @@ public class CardService {
         log.info("Setando o tipo do cartão");
         cartao.setType_card(dto.typeCard());
 
+        log.info("Setando o método de pagamento do cartão");
+        metodoPagamento.setMetodoPagamento(dto.typeMetodoPagamento());
+
+        log.info("Setando o id do contato");
+        Contact contact = contactRepository.findById(dto.idContact().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Contact not found with id: " + dto.idContact().getId()));
+        metodoPagamento.setContact(contact);
+
+        log.info("Salvando o método de pagamento ....");
+        metodoPagamento = metodoPagamentoRepository.save(metodoPagamento);
+
         cartao.setMetodoPagamento(metodoPagamento);
 
         log.info("Salvando o cartão ....");
         return cardRepository.save(cartao);
     }
-
 }

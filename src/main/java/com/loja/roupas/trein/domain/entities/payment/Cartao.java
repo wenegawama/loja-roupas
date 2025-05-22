@@ -1,11 +1,17 @@
 package com.loja.roupas.trein.domain.entities.payment;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 
 @Entity(name = "card")
@@ -43,7 +49,7 @@ public class Cartao  {
     private String type_card;
 
     @OneToOne
-    @JoinColumn(name = "id_method_payment")
+    @JoinColumn(name = "metodoPagamento")
     private MetodoPagamento metodoPagamento;
 
 }
