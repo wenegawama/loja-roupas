@@ -66,5 +66,9 @@ public class UserService {
         public List<Contact> listAllContact() {
             return  contactRepository.findAll();
         }
+
+        public List<User> findAllUsers() {
+        return userRepository.findAll();
+        }
     }
 
