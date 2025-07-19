@@ -1,6 +1,5 @@
 package com.loja.roupas.trein.controllers;
 
-import com.loja.roupas.trein.domain.dto.userDTO.CreateUserDTO;
 import com.loja.roupas.trein.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,9 @@ public class ProductImportController {
 
     @PostMapping(value = "/upload", consumes = {"multipart/form-data"})
     public ResponseEntity<Integer> uploadMassiveProducts(
-            @RequestPart("file")
-            MultipartFile file
-            ) throws IOException {
-        return ResponseEntity.ok(productService.uploadProducts(file));
+            @RequestPart("file") MultipartFile file,
+            @RequestParam("userId") Long userId
+    ) throws IOException {
+        return ResponseEntity.ok(productService.uploadProducts(file, userId));
     }
 }

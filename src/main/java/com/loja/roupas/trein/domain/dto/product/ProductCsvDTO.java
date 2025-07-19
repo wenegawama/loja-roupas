@@ -22,6 +22,8 @@ public record ProductCsvDTO(
         @NotNull
         Tamanho tamanho,
 
-        byte[] foto
+        byte[] foto,
+        @NotNull
+        Long id_user
 ) {
 }

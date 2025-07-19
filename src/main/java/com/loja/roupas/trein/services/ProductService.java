@@ -125,25 +125,30 @@ public class ProductService {
 
     }
 
-    public Integer uploadProducts(MultipartFile file) throws IOException {
-        Set<Product> productSet = parseCsv(file);
+    public Integer uploadProducts(MultipartFile file, Long userId) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(userId));
+
+        Set<Product> productSet = parseCsv(file, user);
 
         productRepository.saveAll(productSet);
-        return  productSet.size();
+        return productSet.size();
     }
 
-    private Set<Product> parseCsv(MultipartFile file) throws IOException {
 
-        try(Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) { //ler o arquivo
+    private Set<Product> parseCsv(MultipartFile file, User user) throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             HeaderColumnNameMappingStrategy<ProductCsvRepresentation> strategy =
                     new HeaderColumnNameMappingStrategy<>();
             strategy.setType(ProductCsvRepresentation.class);
+
             CsvToBean<ProductCsvRepresentation> csvToBean =
                     new CsvToBeanBuilder<ProductCsvRepresentation>(reader)
                             .withMappingStrategy(strategy)
                             .withIgnoreEmptyLine(true)
                             .withIgnoreLeadingWhiteSpace(true)
                             .build();
+
             return csvToBean.parse()
                     .stream()
                     .map(csvLine -> {
@@ -155,12 +160,11 @@ public class ProductService {
                         p.setColor(csvLine.getColor());
                         p.setQuantity(csvLine.getQuantity());
                         p.setTamanho(csvLine.getTamanho());
-                        //p.setFoto(csvLine.getFoto());
-
+                        p.setUser(user); // Associa o usuário aqui
                         return p;
-                            }
-                    )
+                    })
                     .collect(Collectors.toSet());
         }
     }
+
 }
