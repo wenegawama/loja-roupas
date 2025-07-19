@@ -4,19 +4,10 @@ import com.loja.roupas.trein.domain.dto.product.CreateProductDTO;
 import com.loja.roupas.trein.domain.entities.enums.Category;
 import com.loja.roupas.trein.domain.entities.enums.Tamanho;
 import com.loja.roupas.trein.domain.entities.user.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.annotation.Resource;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -59,14 +50,17 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Tamanho tamanho;
 
-    @Lob
-    private byte[] foto;
+//    @Lob
+//    private byte[] foto;
 
     //Antes de criar o produto, preciso ter criado o usuario- Product tem uma dependencia para User
     //Por isso tá 
     @OneToOne
     @JoinColumn(name = "id_user")
     private User user;
+
+//    @ManyToMany(mappedBy = "order_details")
+//    private Set<OrderDetails> orderDetailsSet = new HashSet<>();
 
     public Product(CreateProductDTO createProductDTO) {
         this.name = createProductDTO.name();
@@ -76,6 +70,21 @@ public class Product {
         this.color = createProductDTO.color();
         this.quantity = createProductDTO.quantity();
         this.tamanho = createProductDTO.tamanho();
+    }
+
+
+
+
+    public Product updateProduct(Product product) {
+        Product p = new Product();
+        p.name = product.getName();
+        p.description = product.getDescription();
+        p.category = product.getCategory();
+        p.price = product.getPrice();
+        p.color = product.getColor();
+        p.quantity = product.getQuantity();
+        p.tamanho = product.getTamanho();
+        return p;
     }
 }
 

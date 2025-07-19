@@ -3,7 +3,6 @@ package com.loja.roupas.trein.controllers;
 import com.loja.roupas.trein.domain.dto.CreateCardDTO;
 import com.loja.roupas.trein.domain.entities.payment.Cartao;
 import com.loja.roupas.trein.services.CardService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
